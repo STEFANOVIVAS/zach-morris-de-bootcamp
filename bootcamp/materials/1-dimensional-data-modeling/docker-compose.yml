@@ -17,6 +17,20 @@ services:
       - ./data.dump:/docker-entrypoint-initdb.d/data.dump
       - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+  pg-admin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "stefanovivas@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin2023"
+    ports:
+      - "16543:80"    
+    networks:
+      - postgres-compose-network
 
 volumes:
   postgres-data:
+networks: 
+  postgres-compose-network:
+    driver: bridge
